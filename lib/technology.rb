@@ -22,20 +22,20 @@ class Technology
   end
  
   def approve
-    puts 'technology is approved'
+    # puts 'technology is approved'
     # send an email or log to a file
   end
 
   def unapprove
-    puts 'technology is unapproved'
+    # puts 'technology is unapproved'
   end
   
   def publish
-    puts 'technology is published'
+    # puts 'technology is published'
   end
   
   def retire
-    puts 'technology is retired'
+    # puts 'technology is retired'
   end
   
 end

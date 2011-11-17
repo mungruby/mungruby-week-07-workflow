@@ -1,8 +1,9 @@
-require "rubygems"
-require "bundler/setup"
-require 'simplecov'
-SimpleCov.start
-require File.expand_path(File.dirname(__FILE__) + '/../lib/technology.rb')
+# require "rubygems"
+# require "bundler/setup"
+# require 'simplecov'
+# SimpleCov.start
+# require File.expand_path(File.dirname(__FILE__) + '/../lib/technology.rb')
+require_relative '../lib/technology.rb'
 
 describe "states" do
 
@@ -38,10 +39,18 @@ describe "states" do
   end
 
   context "when published" do
-    it "should be be published" do
+    it "should be published" do
       subject.approve!
       subject.publish!
       subject.current_state.to_s.should == "published"
+    end
+
+    it "can be set to retired" do
+      subject.approve!
+      subject.publish!
+      subject.retire!
+      subject.retired?.should == true
+      subject.current_state.to_s.should == "retired"
     end
   end
 
