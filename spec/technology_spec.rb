@@ -22,9 +22,12 @@ describe "states" do
     it "should not be publishable when unapproved" do
       expect { subject.publish! }.to raise_error
     end
+
     it "should tell us it is approved" do
-      expect { subject.approve!}.to_s == "technology is approved"
+      pending
+      expect {subject.approve!}.to_s == "technology is approved"
     end
+     
     it "can be set back to unapproved" do
       subject.approve!
       subject.unapprove!
@@ -51,6 +54,15 @@ describe "states" do
       subject.retire!
       subject.retired?.should == true
       subject.current_state.to_s.should == "retired"
+    end
+  end
+
+  context "when retired" do
+    it "cannot be set to published" do
+      subject.approve!
+      subject.publish!
+      subject.retire!
+      expect { subject.publish! }.to raise_error
     end
   end
 
