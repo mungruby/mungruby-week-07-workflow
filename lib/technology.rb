@@ -19,6 +19,7 @@ class Technology
       event :retire,  :transitions_to => :retired
     end
     state :retired
+    state :rejected
   end
  
   def approve
