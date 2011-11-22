@@ -10,6 +10,7 @@ class Technology
   workflow do
     state :unapproved do
       event :approve, :transitions_to => :approved
+      event :reject,  :transitions_to => :rejected
     end
     state :approved do
       event :publish, :transitions_to => :published
@@ -19,8 +20,12 @@ class Technology
       event :retire,  :transitions_to => :retired
     end
     state :retired
+    state :rejected
   end
  
+  # def reject
+  # end
+  
   def approve
     puts 'technology is approved'
     # send an email or log to a file
