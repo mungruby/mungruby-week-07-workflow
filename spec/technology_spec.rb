@@ -34,9 +34,16 @@ describe "states" do
       expect { subject.unapprove! }.to raise_error
     end
 
-    it "available events should be approve" do
+    it "available events should be approve and reject" do
       subject.current_state.events.should have_key(:approve)
-      subject.current_state.events.keys.should == [:approve]
+      subject.current_state.events.should have_key(:reject)
+      subject.current_state.events.keys.should == [:approve, :reject]
+    end
+
+    it "can be set to rejected" do
+      expect { subject.reject! }.to_not raise_error
+      subject.rejected?.should == true
+      subject.current_state.to_s.should == "rejected"
     end
 
     it "can be set to approved" do
@@ -236,6 +243,59 @@ describe "states" do
       subject.retired?.should == true
       expect { subject.publish! }.to raise_error
       subject.retired?.should == true
+    end
+
+  end
+
+
+  #
+  # REJECTED
+  #
+  context "when rejected" do
+
+    it "should be rejected" do
+      subject.reject!
+      subject.rejected?.should == true
+      subject.current_state.to_s.should == "rejected"
+    end
+
+    it "there should be no available events" do
+      subject.reject!
+      subject.rejected?.should == true
+      subject.current_state.events.keys.should == []
+    end
+
+    it "cannot be set to rejected when already rejected" do
+      subject.reject!
+      expect { subject.reject! }.to raise_error
+    end
+
+    it "cannot be set to approved" do
+      subject.reject!
+      subject.rejected?.should == true
+      expect { subject.approve! }.to raise_error
+      subject.approved?.should == false
+    end
+
+    it "cannot be set to unapproved" do
+      subject.reject!
+      subject.rejected?.should == true
+      expect { subject.unapprove! }.to raise_error
+      subject.unapproved?.should == false
+    end
+
+    it "cannot be set to published" do
+      subject.reject!
+      subject.rejected?.should == true
+      expect { subject.publish! }.to raise_error
+      subject.published?.should == false
+    end
+
+    it "cannot be set to retired" do
+      subject.reject!
+      subject.rejected?.should == true
+      expect { subject.retire! }.to raise_error
+      subject.retired?.should == false
     end
 
   end
